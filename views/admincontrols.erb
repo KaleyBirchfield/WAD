@@ -57,13 +57,13 @@
         </td>
         <td>
           <p>
-            <%= @newinfo %>
+            <%= @el %>
           </p>
         </td>
         <td>
-          <form action="/user/<%= liste.username %>" method="post" id="edit">
+          <form action="/edit/update<%= liste.username %>" method="post" id="edit">
             <input type="hidden" name="_method" value="put">
-            <input type="checkbox" name="edit"<%= "checked" if liste.edit %>>
+            <input type="checkbox" name="edit"<%= "checked" if Edit.approved %>>
             <input type="submit" value="Approve Edit">
           </form>
         </td>

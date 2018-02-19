@@ -10,11 +10,18 @@ class User
   property :edit, Boolean, :required => true, :default => false
 end
 
+class Edit
+  include DataMapper::Resource
+  property :id, Serial
+  property :text, Text, :required => true
+  property :approved, Boolean, :required => true, :default => false
+  belongs_to :user
+end
+
 DataMapper.finalize.auto_upgrade!
 
 $myinfo = ""
 @info = ""
-@newinfo = ""
 
 def readFile(filename)
   info = ""
@@ -98,7 +105,6 @@ end
 get '/edit' do
   protected!
   info = ""
-  @newinfo = ""
   file = File.open("wiki.txt")
   file.each do |line|
     info = info + line
@@ -110,12 +116,20 @@ end
 
 put '/edit' do
   info = "#{params[:message]}"
-  @newinfo = info
-  file = File.new("#{User.username}.txt", "w")
-  file.puts @newinfo
-  file.close
+  e = Edit.new
+  e.text = info
+  e.user = User
   redirect '/pending'
 end
+
+put '/edit' do
+  info = "#{params[:message]}"
+  e = Edit.new
+  e.text = info
+  e.user = User
+  redirect '/pending'
+end
+
 
 get '/pending' do
   erb :pending
@@ -153,7 +167,7 @@ post '/createaccount' do
   if n.username == "Admin" and n.password == "Password"
     n.edit = true
     redirect '/login'
-  elsif wiki.exists?(n.username) and not wiki.exists?(n.password)
+  elsif User.exists?(n.username) and not User.exists?(n.password)
     redirect '/usernametaken'
   else
     redirect '/login'
@@ -196,6 +210,26 @@ get '/user/delete/:uzer' do
     @list2 = User.all :order => :id.desc
     erb :admincontrols
   end
+end
+
+put '/edit/update/:uzer' do
+  e = Edit.user(:text => params[:uzer])
+  e.approved = params[:approved] ? 1 : 0
+  e.save
+  redirect '/'
+end
+
+get '/edit/update/:uzer' do
+  e = Edit.user(:text => params[:uzer])
+  if e.approved
+    el = "#{e.text}"
+    @el = el
+    file = File.open("wiki.txt", "w")
+    file.puts @el
+    file.close
+  end
+  e.save
+  redirect '/'
 end
 
 get '/logout' do
