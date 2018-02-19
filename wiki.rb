@@ -14,7 +14,6 @@ DataMapper.finalize.auto_upgrade!
 
 $myinfo = ""
 @info = ""
-@newinfo = ""
 
 def readFile(filename)
   info = ""
@@ -96,9 +95,7 @@ get '/create' do
 end
 
 get '/edit' do
-  protected!
   info = ""
-  @newinfo = ""
   file = File.open("wiki.txt")
   file.each do |line|
     info = info + line
@@ -110,15 +107,11 @@ end
 
 put '/edit' do
   info = "#{params[:message]}"
-  @newinfo = info
-  file = File.new("#{User.username}.txt", "w")
-  file.puts @newinfo
+  @info = info
+  file = File.open("wiki.txt", "w")
+  file.puts @info
   file.close
-  redirect '/pending'
-end
-
-get '/pending' do
-  erb :pending
+  redirect '/edit'
 end
 
 get '/login' do
@@ -153,11 +146,15 @@ post '/createaccount' do
   if n.username == "Admin" and n.password == "Password"
     n.edit = true
     redirect '/login'
-  elsif wiki.exists?(n.username) and not wiki.exists?(n.password)
+  elsif n.exists?(n.username) and not n.exists?(n.password)
     redirect '/usernametaken'
   else
     redirect '/login'
   end
+end
+
+get '/usernametaken' do
+  erb :usernametaken
 end
 
 get '/admincontrols' do

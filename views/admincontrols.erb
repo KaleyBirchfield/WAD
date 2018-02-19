@@ -23,17 +23,15 @@
         <p>Username</p>
       </td>
       <td>
-        <p>Admin</p>
-      </td>
-      <td>
         <p>Date Joined</p>
       </td>
       <td>
-        <p>Edit</p>
+        <p>Approved</p>
       </td>
       <td>
         <p>Approve Edit</p>
       </td>
+
       <td>
         <p>Delete User</p>
       </td>
@@ -47,19 +45,15 @@
         </td>
         <td>
           <p>
-            <%= liste.edit %>
-          </p>
-        </td>
-        <td>
-          <p>
             <%= liste.date_joined %>
           </p>
         </td>
         <td>
           <p>
-            <%= @newinfo %>
+            <%= liste.edit %>
           </p>
         </td>
+
         <td>
           <form action="/user/<%= liste.username %>" method="post" id="edit">
             <input type="hidden" name="_method" value="put">
