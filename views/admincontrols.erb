@@ -1,0 +1,78 @@
+<b>Menu</b><br>
+<a href="/">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/about">About</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/edit">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<% if $credentials %>
+  <% if $credentials[0] != '' %>
+    <a href="/user/<%= $credentials[0] %>"><%= $credentials[0] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/logout">Logout</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <% if $credentials[0] == "Admin" %>
+      <a href="/admincontrols"><b>Admin Controls</b></a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <% end %>
+  <% else %>
+    <a href="/login">Login</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <% end %>
+<% else %>
+  <a href="/login">Login</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<% end %>
+<br><br>
+<h1>Admin Controls</h1>
+  <table border="2">
+    <tr>
+      <td>
+        <p>Username</p>
+      </td>
+      <td>
+        <p>Admin</p>
+      </td>
+      <td>
+        <p>Date Joined</p>
+      </td>
+      <td>
+        <p>Edit</p>
+      </td>
+      <td>
+        <p>Approve Edit</p>
+      </td>
+      <td>
+        <p>Delete User</p>
+      </td>
+    </tr>
+    <% @list2.each do |liste| %>
+      <tr>
+        <td>
+          <p>
+            <%= liste.username %>
+          </p>
+        </td>
+        <td>
+          <p>
+            <%= liste.edit %>
+          </p>
+        </td>
+        <td>
+          <p>
+            <%= liste.date_joined %>
+          </p>
+        </td>
+        <td>
+          <p>
+            <%= @newinfo %>
+          </p>
+        </td>
+        <td>
+          <form action="/user/<%= liste.username %>" method="post" id="edit">
+            <input type="hidden" name="_method" value="put">
+            <input type="checkbox" name="edit"<%= "checked" if liste.edit %>>
+            <input type="submit" value="Approve Edit">
+          </form>
+        </td>
+        <td>
+          <form action="/user/delete/<%= liste.username %>" method="get">
+            <input type="hidden" name="_method" value="put">
+            <input type="submit" value="Delete User">
+          </form>
+        </td>
+      </tr>
+    <% end %>
+  </table>
