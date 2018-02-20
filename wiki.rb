@@ -95,6 +95,7 @@ get '/create' do
 end
 
 get '/edit' do
+  adminprotected!
   info = ""
   file = File.open("wiki.txt")
   file.each do |line|
@@ -145,12 +146,9 @@ post '/createaccount' do
   n.date_joined = Time.now
   if n.username == "Admin" and n.password == "Password"
     n.edit = true
-    redirect '/login'
-  elsif n.exists?(n.username) and not n.exists?(n.password)
-    redirect '/usernametaken'
-  else
-    redirect '/login'
   end
+  n.save
+  redirect '/login'
 end
 
 get '/usernametaken' do
