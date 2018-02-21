@@ -1,0 +1,71 @@
+<html>
+<head>
+<style type="text/css">
+	div.topbar {
+		height: 30px;
+		background-color: ;
+		position: absolute;
+		left: 50px;
+	}
+	div.navigation{
+		height: 30px;
+		width: 600px;
+		background-color: ;
+		position: absolute;
+		left: 50px;
+		top: 50px;
+	}
+	
+	div.content {
+		position: absolute;
+		top: 80px;
+		left: 50px;
+	}
+	
+	.menuitem {
+		width: 100px;
+		height: 30px;
+		float: left;
+		margin-left: 10px;
+		font-size: 110%
+	}
+	
+	div.article {
+		background-color: #EEEEEE;
+		padding: 10px 10px 40px 10px;
+		width: 600px;
+		float: left;
+	}
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="navigation">
+	<div class="menuitem"><a href="/"><b>Home</b></a></div>
+	<div class="menuitem"><a href="/about">About</a></div>
+	<div class="menuitem"><a href="/edit">Edit</a></div>
+	<% if $credentials %>
+	  <% if $credentials[0] != '' %>
+		<div class="menuitem"><a href="/logout">Logout</a></div>
+		<% if $credentials[0] == "Admin" %>
+		  <div class="menuitem"><a href="/admincontrols">Admin Controls</a></div>
+		<% end %>
+	  <% else %>
+		<div class="menuitem"><a href="/login">Login</a></div>
+	  <% end %>
+	<% else %>
+	   <div class="menuitem"><a href="/login">Login</a></div>
+	<% end %>
+	<br><br>
+</div>
+
+<div class="content">
+<h1>About us</h1>
+<p>This wiki was created by </p>
+<p> <%= $myinfo %> </p>
+<p>Staff ID: XXXXXXXX</p>
+</div>
+</body>
+</html>
