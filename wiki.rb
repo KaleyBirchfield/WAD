@@ -75,7 +75,7 @@ get '/' do
   len = info.length
   len1 = len
   readFile("wiki.txt")
-  @info = info + " " + $myinfo
+  @info = info + " \n " + $myinfo
   len = @info.length
   len2 = len - 1
   len3 = len2 - len1
@@ -93,6 +93,25 @@ get '/create' do
 
   erb :create
 end
+
+post '/create' do
+	
+	@current = ""
+	file = File.open("wiki.txt")
+	file.each do |line|
+		@current = @current + line
+	end
+	file.close
+
+	@newText = "#{params[:message]}"
+	
+	file = File.open("wiki.txt", "w")
+	file.puts @current + "<p>  " + "Added by: " + $credentials[0] + " at #{Time.now}" + "  " +  @newText + "</p>"
+	file.close
+	
+	redirect '/'
+	
+end 
 
 get '/edit' do
   adminprotected!
@@ -112,7 +131,7 @@ put '/edit' do
   file = File.open("wiki.txt", "w")
   file.puts @info
   file.close
-  redirect '/edit'
+  redirect '/'
 end
 
 get '/login' do
@@ -212,6 +231,50 @@ end
 
 get '/denied' do
   erb :denied
+end
+
+get '/archive' do
+	
+	redirect '/'
+end
+
+post '/archive' do
+	
+	@archived = ""
+	file = File.open("archived.txt.")
+	file.each do |line|
+		@archived = @archived + line end
+	file.close									#archived thing saved here
+	
+	@text = ""
+	file = File.open("wiki.txt")
+	file.each do |line|
+		@text = @text + line end
+	file.close
+	
+	
+		
+	file = File.open("archived.txt", "w")
+	file.puts @archived + "\n " + "Archived at: #{Time.now}; \n" + "Archived by: " + $credentials[0] + " \n "  + @text + " \n "	
+	file.puts ""
+	file.close
+	
+	redirect '/edit'
+end
+
+get '/reset' do
+	
+	@info=""
+	file = File.open("original.txt")
+	file.each do |line|
+		@info = @info + line
+	end
+	file.close 
+	file = File.open("wiki.txt","w")
+	file.puts @info 
+	file.close
+	
+	redirect '/edit'
 end
 
 not_found do

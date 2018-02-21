@@ -1,21 +1,66 @@
-<b>Menu</b><br>
-<a href="/">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="/about">About</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="/edit">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<% if $credentials %>
-  <% if $credentials[0] != '' %>
-    <a href="/user/<%= $credentials[0] %>"><%= $credentials[0] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="/logout">Logout</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <% if $credentials[0] == "Admin" %>
-      <a href="/admincontrols"><b>Admin Controls</b></a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <% end %>
-  <% else %>
-    <a href="/login">Login</a>&nbsp;&nbsp;&nbsp;&nbsp;
-  <% end %>
-<% else %>
-  <a href="/login">Login</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<% end %>
-<br><br>
+<html>
+<head>
+<style type="text/css">
+	div.topbar {
+		height: 30px;
+		background-color: ;
+		position: absolute;
+		left: 50px;
+	}
+	div.navigation{
+		height: 30px;
+		width: 600px;
+		background-color: ;
+		position: absolute;
+		left: 50px;
+		top: 50px;
+	}
+	
+	div.content {
+		position: absolute;
+		top: 80px;
+		left: 50px;
+	}
+	
+	.menuitem {
+		width: 100px;
+		height: 30px;
+		float: left;
+		margin-left: 10px;
+		font-size: 110%
+	}
+	
+	div.article {
+		background-color: #EEEEEE;
+		padding: 10px 10px 40px 10px;
+		width: 600px;
+		float: left;
+	}
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="navigation">
+	<div class="menuitem"><a href="/"><b>Home</b></a></div>
+	<div class="menuitem"><a href="/about">About</a></div>
+	<div class="menuitem"><a href="/edit">Edit</a></div>
+	<% if $credentials %>
+	  <% if $credentials[0] != '' %>
+		<div class="menuitem"><a href="/logout">Logout</a></div>
+		<% if $credentials[0] == "Admin" %>
+		  <div class="menuitem"><a href="/admincontrols">Admin Controls</a></div>
+		<% end %>
+	  <% else %>
+		<div class="menuitem"><a href="/login">Login</a></div>
+	  <% end %>
+	<% else %>
+	   <div class="menuitem"><a href="/login">Login</a></div>
+	<% end %>
+	<br><br>
+</div>
+<div class="content">
 <h1>Admin Controls</h1>
   <table border="2">
     <tr>
@@ -26,10 +71,10 @@
         <p>Date Joined</p>
       </td>
       <td>
-        <p>Approved</p>
+        <p>Can edit?</p>
       </td>
       <td>
-        <p>Admin</p>
+        <p>Edit Rights</p>
       </td>
 
       <td>
@@ -58,7 +103,7 @@
           <form action="/user/<%= liste.username %>" method="post" id="edit">
             <input type="hidden" name="_method" value="put">
             <input type="checkbox" name="edit"<%= "checked" if liste.edit %>>
-            <input type="submit" value="Make Admin">
+            <input type="submit" value="Change Edit Rights">
           </form>
         </td>
         <td>
@@ -70,3 +115,15 @@
       </tr>
     <% end %>
   </table>
+  
+  
+  <h2>Archive the article</h2>
+  <form action='/archive' method='post'>
+		<input type="submit" value="Archive the article"></input>
+	</form>
+	
+	<b><a href="/create"> Add a post to main page </a></b>
+	
+	</div>
+	</body>
+	</html>
