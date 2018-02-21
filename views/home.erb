@@ -1,27 +1,95 @@
-<b>Menu</b><br>
-<a href="/"><b>Home</b></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="/about">About</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="/edit">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<% if $credentials %>
-  <% if $credentials[0] != '' %>
-    <a href="/user/<%= $credentials[0] %>"><%= $credentials[0] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="/logout">Logout</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <% if $credentials[0] == "Admin" %>
-      <a href="/admincontrols">Admin Controls</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <% end %>
-  <% else %>
-    <a href="/login">Login</a>&nbsp;&nbsp;&nbsp;&nbsp;
-  <% end %>
-<% else %>
-  <a href="/login">Login</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<% end %>
-<br><br>
+<html>
+<head>
+<style type="text/css">
+	div.topbar {
+		height: 30px;
+		background-color: ;
+		position: absolute;
+		left: 50px;
+	}
+	div.navigation{
+		height: 30px;
+		width: 600px;
+		background-color: ;
+		position: absolute;
+		left: 50px;
+		top: 50px;
+	}
+	
+	div.content {
+		position: absolute;
+		top: 80px;
+		left: 50px;
+	}
+	
+	.menuitem {
+		width: 100px;
+		height: 30px;
+		float: left;
+		margin-left: 10px;
+		font-size: 110%
+	}
+	
+	div.article {
+		background-color: #EEEEEE;
+		padding: 10px 10px 40px 10px;
+		width: 600px;
+		float: left;
+	}
+</style>
+</head>
+<body>
 
-<h1>Title</h1>
+<div class="topbar"></div>
+
+<div class="navigation">
+	<div class="menuitem"><a href="/"><b>Home</b></a></div>
+	<div class="menuitem"><a href="/about">About</a></div>
+	<div class="menuitem"><a href="/edit">Edit</a></div>
+	<% if $credentials %>
+	  <% if $credentials[0] != '' %>
+		<div class="menuitem"><a href="/logout">Logout</a></div>
+		<% if $credentials[0] == "Admin" %>
+		  <div class="menuitem"><a href="/admincontrols">Admin Controls</a></div>
+		<% end %>
+	  <% else %>
+		<div class="menuitem"><a href="/login">Login</a></div>
+	  <% end %>
+	<% else %>
+	   <div class="menuitem"><a href="/login">Login</a></div>
+	<% end %>
+	<br><br>
+</div>
+
+<div class="content">
+
+<h1>Group Work Journal</h1>
 
 
-<div id="content" style="background-color:#EEEEEE;height:340px;width:500px;float:left;">
+<div class="article" >
+
+<p> <b>Pinned post:</b></p>
+<p>Welcome to the Journal of our WAD Project. Feel free to add your own posts to the journal to keep the record of collaborative work.</p>
+
   <%= @info %>
   <br><br><br>
-  Character Count: <%= @words %>
 </div>
+
+<div id="addcontent">
+
+  <p><b>Character Count: <%= @words %></b>
+
+	<% if $credentials %>
+		<% if $credentials[0] != '' %>
+			<form action='/create'>
+				<input type="submit" value="Add a post">
+			</form> </p>
+</div>	
+	
+  <% end %>
+<% end %>
+</div>
+<br><br>
+
+</body>
+

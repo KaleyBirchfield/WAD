@@ -14,7 +14,6 @@ DataMapper.finalize.auto_upgrade!
 
 $myinfo = ""
 @info = ""
-@newinfo = ""
 
 def readFile(filename)
   info = ""
@@ -76,7 +75,7 @@ get '/' do
   len = info.length
   len1 = len
   readFile("wiki.txt")
-  @info = info + " " + $myinfo
+  @info = info + " \n " + $myinfo
   len = @info.length
   len2 = len - 1
   len3 = len2 - len1
@@ -95,10 +94,28 @@ get '/create' do
   erb :create
 end
 
+post '/create' do
+	
+	@current = ""
+	file = File.open("wiki.txt")
+	file.each do |line|
+		@current = @current + line
+	end
+	file.close
+
+	@newText = "#{params[:message]}"
+	
+	file = File.open("wiki.txt", "w")
+	file.puts @current + "<p>  " + "Added by: " + $credentials[0] + " at #{Time.now}" + "  " +  @newText + "</p>"
+	file.close
+	
+	redirect '/'
+	
+end 
+
 get '/edit' do
-  protected!
+  adminprotected!
   info = ""
-  @newinfo = ""
   file = File.open("wiki.txt")
   file.each do |line|
     info = info + line
@@ -110,15 +127,11 @@ end
 
 put '/edit' do
   info = "#{params[:message]}"
-  @newinfo = info
-  file = File.new("#{User.username}.txt", "w")
-  file.puts @newinfo
+  @info = info
+  file = File.open("wiki.txt", "w")
+  file.puts @info
   file.close
-  redirect '/pending'
-end
-
-get '/pending' do
-  erb :pending
+  redirect '/'
 end
 
 get '/login' do
@@ -152,12 +165,13 @@ post '/createaccount' do
   n.date_joined = Time.now
   if n.username == "Admin" and n.password == "Password"
     n.edit = true
-    redirect '/login'
-  elsif wiki.exists?(n.username) and not wiki.exists?(n.password)
-    redirect '/usernametaken'
-  else
-    redirect '/login'
   end
+  n.save
+  redirect '/login'
+end
+
+get '/usernametaken' do
+  erb :usernametaken
 end
 
 get '/admincontrols' do
@@ -217,6 +231,50 @@ end
 
 get '/denied' do
   erb :denied
+end
+
+get '/archive' do
+	
+	redirect '/'
+end
+
+post '/archive' do
+	
+	@archived = ""
+	file = File.open("archived.txt.")
+	file.each do |line|
+		@archived = @archived + line end
+	file.close									#archived thing saved here
+	
+	@text = ""
+	file = File.open("wiki.txt")
+	file.each do |line|
+		@text = @text + line end
+	file.close
+	
+	
+		
+	file = File.open("archived.txt", "w")
+	file.puts @archived + "\n " + "Archived at: #{Time.now}; \n" + "Archived by: " + $credentials[0] + " \n "  + @text + " \n "	
+	file.puts ""
+	file.close
+	
+	redirect '/edit'
+end
+
+get '/reset' do
+	
+	@info=""
+	file = File.open("original.txt")
+	file.each do |line|
+		@info = @info + line
+	end
+	file.close 
+	file = File.open("wiki.txt","w")
+	file.puts @info 
+	file.close
+	
+	redirect '/edit'
 end
 
 not_found do
