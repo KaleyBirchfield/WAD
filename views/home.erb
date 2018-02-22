@@ -73,21 +73,20 @@
 		<p>Welcome to the Journal of our WAD Project. Feel free to add your own posts to the journal to keep the record of collaborative work.</p>
 
   		<%= @info %>
-  		<br><br><br>
 	</td>
 </table>
 </div>
 
 <div id="addcontent">
-
-  <p><b>Character Count: <%= @words %></b>
+  <hr>
+  <p style="display:inline;"><b>Character Count: <%= @words %></b>
 
 	<% if $credentials %>
 		<% if $credentials[0] != '' %>
-			<form action='/create'>
+			<form action='/create' style="float: right">
 				<input type="submit" value="Add a post">
 			</form> </p>
-</div>	
+</div>
 	
   <% end %>
 <% end %>

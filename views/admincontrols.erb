@@ -90,7 +90,7 @@
         </td>
         <td>
           <p>
-            <%= liste.date_joined %>
+            <%= liste.date_joined.strftime("%T - %m/%d/%Y") %>
           </p>
         </td>
         <td>
@@ -119,7 +119,7 @@
   
   <h2>Archive the article</h2>
   <form action='/archive' method='post'>
-		<input type="submit" value="Archive the article"></input>
+		<input type="submit" value="Archive the article">
 	</form>
 	
 	<b><a href="/create"> Add a post to main page </a></b>

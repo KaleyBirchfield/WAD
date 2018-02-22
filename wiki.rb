@@ -97,8 +97,10 @@ get '/create' do
 end
 
 post '/create' do
-	
-	@current = ""
+  @t = ""
+	t = Time.now
+  @t = t.strftime(" at %T on %m/%d/%Y")
+  @current = ""
 	file = File.open("wiki.txt")
 	file.each do |line|
 		@current = @current + line
@@ -108,7 +110,7 @@ post '/create' do
 	@newText = "#{params[:message]}"
 	
 	file = File.open("wiki.txt", "w")
-	file.puts @current + "<p>  " + "<br><hr><br>" + "Added by: " + $credentials[0] + " at #{Time.now}" + "  " + "<br><br>" +  @newText + "</p>"
+	file.puts @current + "<p>  " + "<br><hr><br>" + "Added by: " + $credentials[0] + @t + "  " + "<br><br>" +  @newText + "</p>"
 	file.close
 	
 	redirect '/'
@@ -245,9 +247,11 @@ get '/archive' do
 end
 
 post '/archive' do
-	
+  @t = ""
+  t = Time.now
+  @t = t.strftime(" at %T on %m/%d/%Y")
 	@archived = ""
-	file = File.open("archived.txt.")
+	file = File.open("archived.txt.", "w+")
 	file.each do |line|
 		@archived = @archived + line end
 	file.close									#archived thing saved here
@@ -261,7 +265,7 @@ post '/archive' do
 	
 		
 	file = File.open("archived.txt", "w")
-	file.puts @archived + "\n " + "Archived at: #{Time.now}; \n" + "Archived by: " + $credentials[0] + " \n "  + @text + " \n "	
+	file.puts @archived + "\n " + "Archived at: #{@t}; \n" + "Archived by: " + $credentials[0] + " \n "  + @text + " \n "
 	file.puts ""
 	file.close
 	
