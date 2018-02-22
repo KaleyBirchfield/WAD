@@ -15,6 +15,8 @@ DataMapper.finalize.auto_upgrade!
 $myinfo = ""
 @info = ""
 
+set :port, 9001
+
 def readFile(filename)
   info = ""
   file = File.open(filename)
@@ -106,7 +108,7 @@ post '/create' do
 	@newText = "#{params[:message]}"
 	
 	file = File.open("wiki.txt", "w")
-	file.puts @current + "<p>  " + "Added by: " + $credentials[0] + " at #{Time.now}" + "  " +  @newText + "</p>"
+	file.puts @current + "<p>  " + "Added by: " + $credentials[0] + " at #{Time.now}" + "  " + "<br><br>" +  @newText + "</p>"
 	file.close
 	
 	redirect '/'
@@ -159,6 +161,10 @@ get '/createaccount' do
 end
 
 post '/createaccount' do
+  u = User.first(:username => params[:username])
+  if u != nil
+    redirect '/usernametaken'
+  end
   n = User.new
   n.username = params[:username]
   n.password = params[:password]

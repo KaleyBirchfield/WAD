@@ -67,21 +67,23 @@
 		
 		<div style="width:700px;">
 		<h2>Add a new post to Journal</h2>
+		<table>
+			<td>
+				<p>On this page, you can find a form to upload your own paragraph into the Journal on the main page. <br>
 
-		<p>On this page, you can find a form to upload your own paragraph into the Journal on the main page. <br>
-		
-		In case you want to Edit said content, click <a href='/edit'>here</a>. <br>
-		Also know that you can edit other users' text only if you have rights to do so. If you don't, you can contact Admin to provide these for you.
-		</p>
+				In case you want to Edit said content, click <a href='/edit'>here</a>. <br>
+				Also know that you can edit other users' text only if you have rights to do so. If you don't, you can contact Admin to provide these for you.
+				</p>
 
-		<h3>Currently, the article says following:</h3>
-		</div>
-		<section>
-			<p> <%= $myinfo %> </p>
-		</section>
-		<br>
-		<p>Here is where you can add your text. Notice that you have to do all formatting, such as extra lines, yourself.</p>
-
+				<h3>Currently, the article says following:</h3>
+				</div>
+				<section>
+					<p> <%= $myinfo %> </p>
+				</section>
+				<br>
+				<p>Here is where you can add your text. Notice that you have to do all formatting, such as extra lines, yourself.</p>
+			</td>
+		</table>
 		<form action="/create" method="post" id="edit">
 			<textarea rows="20" cols="90" name="message"><%= @info %></textarea>
 			<input type="submit" value="Update">
