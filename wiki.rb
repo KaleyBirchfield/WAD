@@ -108,7 +108,7 @@ post '/create' do
 	@newText = "#{params[:message]}"
 	
 	file = File.open("wiki.txt", "w")
-	file.puts @current + "<p>  " + "Added by: " + $credentials[0] + " at #{Time.now}" + "  " + "<br><br>" +  @newText + "</p>"
+	file.puts @current + "<p>  " + "<br><hr><br>" + "Added by: " + $credentials[0] + " at #{Time.now}" + "  " + "<br><br>" +  @newText + "</p>"
 	file.close
 	
 	redirect '/'
