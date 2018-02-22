@@ -33,7 +33,6 @@
 	div.article {
 		background-color: #EEEEEE;
 		padding: 10px 10px 40px 10px;
-		width: 600px;
 		float: left;
 	}
 </style>
@@ -67,13 +66,22 @@
 
 
 <div class="article" >
-<table>
+<table border="0">
+	<tr>
+		<th align="left">Pinned post:</th>
+	</tr>
+	<tr>
 	<td>
-		<p> <b>Pinned post:</b></p>
-		<p>Welcome to the Journal of our WAD Project. Feel free to add your own posts to the journal to keep the record of collaborative work.</p>
-
-  		<%= @info %>
+		Welcome to the Journal of our WAD Project. Feel free to add your own posts to the journal to keep the record of collaborative work.
 	</td>
+	</tr>
+	<tr>
+	<td>
+		<pre>
+  		<%= @info %>
+		</pre>
+	</td>
+	</tr>
 </table>
 </div>
 
